@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build output and test coverage
+dist/
+coverage/
+
+# Environment variables (never publish secrets)
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local database data (Docker)
+pgdata/
+
+# OS and editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

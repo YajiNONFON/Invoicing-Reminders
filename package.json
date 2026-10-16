@@ -1,0 +1,50 @@
+{
+  "name": "invoicing-reminders",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Invoicing API: invoices in cents, PDF generation, statuses and automatic reminders for unpaid invoices.",
+  "main": "dist/server.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YajiNONFON/Invoicing-Reminders.git"
+  },
+  "keywords": [
+    "invoicing",
+    "reminders",
+    "express",
+    "typescript"
+  ],
+  "author": "Yaji NONFON",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/YajiNONFON/Invoicing-Reminders/issues"
+  },
+  "homepage": "https://github.com/YajiNONFON/Invoicing-Reminders#readme",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.5",
+    "eslint": "^10.12.0",
+    "prettier": "^3.9.10",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.71.2"
+  }
+}

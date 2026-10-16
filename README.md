@@ -1,6 +1,6 @@
-# facturation-relances
+# Invoicing-Reminders
 
-Invoicing API for freelancers: invoices in cents, PDF generation, statuses and automatic reminders for unpaid invoices.
+Invoicing API: invoices in cents, PDF generation, statuses and automatic reminders for unpaid invoices.
 
 **Status:** under construction.
 

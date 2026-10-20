@@ -4,7 +4,12 @@ import { createApp } from '../../app';
 
 vi.mock('./client.repository', () => ({
   clientRepository: {
-    create: vi.fn(async (data: { name: string; email: string }) => ({ id: 'client-1', ...data })),
+    create: vi.fn(async (data: { name: string; email: string }) => {
+      if (data.email === 'taken@example.com') {
+        throw Object.assign(new Error('Unique constraint failed'), { code: 'P2002' });
+      }
+      return { id: 'client-1', ...data };
+    }),
   },
 }));
 
@@ -18,6 +23,15 @@ describe('POST /api/clients', () => {
 
     expect(res.status).toBe(201);
     expect(res.body).toEqual({ id: 'client-1', name: 'Ada Lovelace', email: 'ada@example.com' });
+  });
+
+  it('returns 409 when the email already exists', async () => {
+    const res = await request(app)
+      .post('/api/clients')
+      .send({ name: 'Ada', email: 'Taken@Example.com' });
+
+    expect(res.status).toBe(409);
+    expect(res.body).toEqual({ message: 'A client with this email already exists' });
   });
 
   it('rejects an invalid email with a 400 and a message', async () => {

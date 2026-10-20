@@ -62,5 +62,11 @@ export const clientsRouter = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
+ *       409:
+ *         description: A client with this email already exists
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 clientsRouter.post('/', clientController.create);

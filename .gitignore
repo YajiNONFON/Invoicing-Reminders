@@ -22,3 +22,6 @@ pgdata/
 Thumbs.db
 .idea/
 .vscode/
+
+  # Generated Prisma client
+  src/generated/

@@ -4,7 +4,8 @@ The backend must comply with this contract, and Swagger documents it.
 
 - Amounts are in **cents (integers)**.
 - Dates use the `YYYY-MM-DD` format.
-- Errors: `{ "message": "..." }` with a 4xx HTTP status code.
+- Errors: `{ "message": "..." }` with a 4xx HTTP status code (5xx only for unexpected errors).
+- Interactive documentation: `/docs` (OpenAPI JSON at `/docs.json`). Health check: `GET /health` (outside `/api`).
 
 ## Routes
 
@@ -19,6 +20,17 @@ The backend must comply with this contract, and Swagger documents it.
 | GET    | /api/invoices/:id/pdf   |                                                                        | PDF file                                                      |
 | GET    | /api/reminders          |                                                                        | `[{id, invoiceId, number, to, date, subject}]`                |
 | POST   | /api/jobs/overdue-check | `{today?}`                                                             | `{overdue, remindersCreated}`                                 |
+
+## Status codes
+
+| Code | Meaning                                                      |
+| ---- | ------------------------------------------------------------ |
+| 200  | Success (reads, `send`, `pay`, `overdue-check`, `pdf`)       |
+| 201  | Resource created (`POST /api/clients`, `POST /api/invoices`) |
+| 400  | Invalid input (the message names the faulty field)           |
+| 404  | Unknown route, client or invoice                             |
+| 409  | Forbidden status transition                                  |
+| 500  | Unexpected error: `{ "message": "Internal server error" }`   |
 
 ## Invoice
 
@@ -44,3 +56,5 @@ Allowed transitions: `draft` to `sent`, `sent` to `paid`, `sent` to `overdue`, `
 ## Reminder rule
 
 At most one reminder per invoice per day (idempotent).
+
+In `POST /api/jobs/overdue-check`, the optional `today` field is only honored outside production (demo and tests). In production the server date is used.

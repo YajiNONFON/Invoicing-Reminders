@@ -8,17 +8,17 @@ The backend must comply with this contract, and Swagger documents it.
 
 ## Routes
 
-| Method | Route               | Body                                                                   | Response                                                      |
-| ------ | ------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------- |
-| POST   | /clients            | `{name, email}`                                                        | `{id, name, email}`                                           |
-| POST   | /invoices           | `{clientId, dueDate, lines:[{description, quantity, unitPriceCents}]}` | invoice (status `draft`, `totalCents` computed by the server) |
-| GET    | /invoices           |                                                                        | list of invoices                                              |
-| GET    | /invoices/:id       |                                                                        | invoice + `reminders[]`                                       |
-| POST   | /invoices/:id/send  |                                                                        | invoice (`draft` to `sent`, otherwise 409)                    |
-| POST   | /invoices/:id/pay   |                                                                        | invoice (`sent` or `overdue` to `paid`, otherwise 409)        |
-| GET    | /invoices/:id/pdf   |                                                                        | PDF file                                                      |
-| GET    | /reminders          |                                                                        | `[{id, invoiceId, number, to, date, subject}]`                |
-| POST   | /jobs/overdue-check | `{today?}`                                                             | `{overdue, remindersCreated}`                                 |
+| Method | Route                   | Body                                                                   | Response                                                      |
+| ------ | ----------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------- |
+| POST   | /api/clients            | `{name, email}`                                                        | `{id, name, email}`                                           |
+| POST   | /api/invoices           | `{clientId, dueDate, lines:[{description, quantity, unitPriceCents}]}` | invoice (status `draft`, `totalCents` computed by the server) |
+| GET    | /api/invoices           |                                                                        | list of invoices                                              |
+| GET    | /api/invoices/:id       |                                                                        | invoice + `reminders[]`                                       |
+| POST   | /api/invoices/:id/send  |                                                                        | invoice (`draft` to `sent`, otherwise 409)                    |
+| POST   | /api/invoices/:id/pay   |                                                                        | invoice (`sent` or `overdue` to `paid`, otherwise 409)        |
+| GET    | /api/invoices/:id/pdf   |                                                                        | PDF file                                                      |
+| GET    | /api/reminders          |                                                                        | `[{id, invoiceId, number, to, date, subject}]`                |
+| POST   | /api/jobs/overdue-check | `{today?}`                                                             | `{overdue, remindersCreated}`                                 |
 
 ## Invoice
 

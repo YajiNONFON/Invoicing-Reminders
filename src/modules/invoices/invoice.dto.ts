@@ -13,6 +13,8 @@ export const createInvoiceSchema = z.object({
   lines: z.array(invoiceLineSchema).min(1).max(100),
 });
 
+export const invoiceIdParamSchema = z.object({ id: z.uuid() });
+
 export type CreateInvoiceInput = z.infer<typeof createInvoiceSchema>;
 export type InvoiceLineInput = z.infer<typeof invoiceLineSchema>;
 
@@ -44,4 +46,12 @@ export function toInvoiceResponse(invoice: InvoiceRecord) {
     })),
     totalCents: invoice.totalCents,
   };
+}
+
+/**
+ * An invoice with its reminders. Reminders are recorded by the overdue job (added with the
+ * reminders module), so the list is empty until then.
+ */
+export function toInvoiceDetailResponse(invoice: InvoiceRecord) {
+  return { ...toInvoiceResponse(invoice), reminders: [] as never[] };
 }

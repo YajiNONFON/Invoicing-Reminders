@@ -18,6 +18,17 @@ interface NewInvoice {
 }
 
 export const invoiceRepository = {
+  findAll() {
+    return prisma.invoice.findMany({
+      orderBy: [{ createdAt: 'desc' }, { number: 'desc' }],
+      include: invoiceInclude,
+    });
+  },
+
+  findById(id: string) {
+    return prisma.invoice.findUnique({ where: { id }, include: invoiceInclude });
+  },
+
   /** Reserves the next invoice number and inserts the invoice with its lines, atomically. */
   create(data: NewInvoice) {
     return prisma.$transaction(async (tx) => {

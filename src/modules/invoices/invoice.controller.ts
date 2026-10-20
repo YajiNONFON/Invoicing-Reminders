@@ -1,5 +1,10 @@
 import type { Request, Response } from 'express';
-import { createInvoiceSchema, toInvoiceResponse } from './invoice.dto';
+import {
+  createInvoiceSchema,
+  invoiceIdParamSchema,
+  toInvoiceDetailResponse,
+  toInvoiceResponse,
+} from './invoice.dto';
 import { invoiceService } from './invoice.service';
 
 export const invoiceController = {
@@ -7,5 +12,16 @@ export const invoiceController = {
     const input = createInvoiceSchema.parse(req.body);
     const invoice = await invoiceService.create(input);
     res.status(201).json(toInvoiceResponse(invoice));
+  },
+
+  async list(_req: Request, res: Response) {
+    const invoices = await invoiceService.list();
+    res.json(invoices.map(toInvoiceResponse));
+  },
+
+  async getById(req: Request, res: Response) {
+    const { id } = invoiceIdParamSchema.parse(req.params);
+    const invoice = await invoiceService.getById(id);
+    res.json(toInvoiceDetailResponse(invoice));
   },
 };

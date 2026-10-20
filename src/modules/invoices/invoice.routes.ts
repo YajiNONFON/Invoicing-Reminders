@@ -108,3 +108,65 @@ export const invoicesRouter = Router();
  *               $ref: '#/components/schemas/Error'
  */
 invoicesRouter.post('/', invoiceController.create);
+
+/**
+ * @openapi
+ * /invoices:
+ *   get:
+ *     tags: [Invoices]
+ *     summary: List invoices
+ *     description: Most recent first.
+ *     responses:
+ *       200:
+ *         description: All invoices
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Invoice'
+ */
+invoicesRouter.get('/', invoiceController.list);
+
+/**
+ * @openapi
+ * /invoices/{id}:
+ *   get:
+ *     tags: [Invoices]
+ *     summary: Get an invoice with its reminders
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       200:
+ *         description: The invoice, with a reminders array
+ *         content:
+ *           application/json:
+ *             schema:
+ *               allOf:
+ *                 - $ref: '#/components/schemas/Invoice'
+ *                 - type: object
+ *                   required: [reminders]
+ *                   properties:
+ *                     reminders:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *       400:
+ *         description: The id is not a valid UUID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Invoice not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+invoicesRouter.get('/:id', invoiceController.getById);

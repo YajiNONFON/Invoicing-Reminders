@@ -1,5 +1,5 @@
 import { toDateOnly, todayISO } from '../../shared/dates';
-import { badRequest } from '../../shared/errors';
+import { badRequest, notFound } from '../../shared/errors';
 import { clientService } from '../clients/client.service';
 import type { CreateInvoiceInput, InvoiceLineInput } from './invoice.dto';
 import { invoiceRepository } from './invoice.repository';
@@ -32,5 +32,17 @@ export const invoiceService = {
       totalCents,
       lines: input.lines,
     });
+  },
+
+  list() {
+    return invoiceRepository.findAll();
+  },
+
+  async getById(id: string) {
+    const invoice = await invoiceRepository.findById(id);
+    if (!invoice) {
+      throw notFound('Invoice not found');
+    }
+    return invoice;
   },
 };

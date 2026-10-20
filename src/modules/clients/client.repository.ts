@@ -7,4 +7,8 @@ export const clientRepository = {
   create(data: CreateClientInput) {
     return prisma.client.create({ data, select: clientSelect });
   },
+
+  findById(id: string) {
+    return prisma.client.findUnique({ where: { id }, select: clientSelect });
+  },
 };

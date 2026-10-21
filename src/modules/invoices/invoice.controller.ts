@@ -24,4 +24,16 @@ export const invoiceController = {
     const invoice = await invoiceService.getById(id);
     res.json(toInvoiceDetailResponse(invoice));
   },
+
+  async send(req: Request, res: Response) {
+    const { id } = invoiceIdParamSchema.parse(req.params);
+    const invoice = await invoiceService.send(id);
+    res.json(toInvoiceResponse(invoice));
+  },
+
+  async pay(req: Request, res: Response) {
+    const { id } = invoiceIdParamSchema.parse(req.params);
+    const invoice = await invoiceService.pay(id);
+    res.json(toInvoiceResponse(invoice));
+  },
 };

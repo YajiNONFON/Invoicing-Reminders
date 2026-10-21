@@ -29,7 +29,37 @@ A demo interface exists but is not included in this repository. The API contract
 
 ## Getting started
 
-Coming soon.
+## Getting started
+
+Requirements: Node.js 20 or later and Docker.
+
+```bash
+git clone https://github.com/YajiNONFON/Invoicing-Reminders.git
+cd Invoicing-Reminders
+npm install
+cp .env.example .env
+docker compose up -d
+npm run db:deploy
+npm run dev
+```
+
+The API listens on http://localhost:5000.
+
+- Interactive documentation: http://localhost:5000/docs
+- Health check: http://localhost:5000/health
+
+### Scripts
+
+| Script               | What it does                               |
+| -------------------- | ------------------------------------------ |
+| `npm run dev`        | Start the API with auto-reload             |
+| `npm run build`      | Compile TypeScript to `dist/`              |
+| `npm start`          | Run the compiled API                       |
+| `npm test`           | Run the test suite                         |
+| `npm run lint`       | Check the code with ESLint                 |
+| `npm run format`     | Format the code with Prettier              |
+| `npm run db:migrate` | Create and apply a migration (development) |
+| `npm run db:deploy`  | Apply existing migrations                  |
 
 ## License
 

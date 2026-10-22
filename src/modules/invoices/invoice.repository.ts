@@ -1,5 +1,6 @@
 import { prisma } from '../../shared/db';
 import type { InvoiceLineInput } from './invoice.dto';
+import type { InvoiceStatus } from './invoice.status';
 
 const invoiceInclude = {
   client: { select: { id: true, name: true, email: true } },
@@ -49,6 +50,34 @@ export const invoiceRepository = {
         },
         include: invoiceInclude,
       });
+    });
+  },
+
+  /**
+   * Moves an invoice to `to` only if it is currently in one of the `from` statuses.
+   * The check and the update are one SQL statement, so two simultaneous requests cannot both win.
+   * Returns false when the invoice was not in an allowed status (or does not exist).
+   */
+  async transition(id: string, from: InvoiceStatus[], to: InvoiceStatus) {
+    const { count } = await prisma.invoice.updateMany({
+      where: { id, status: { in: from } },
+      data: { status: to },
+    });
+    return count === 1;
+  },
+
+  /** Same guarded transition to `paid`, plus the payment record, in one transaction. */
+  pay(id: string, from: InvoiceStatus[], amountCents: number, paidAt: Date) {
+    return prisma.$transaction(async (tx) => {
+      const { count } = await tx.invoice.updateMany({
+        where: { id, status: { in: from } },
+        data: { status: 'paid' },
+      });
+      if (count !== 1) {
+        return false;
+      }
+      await tx.payment.create({ data: { invoiceId: id, amountCents, paidAt } });
+      return true;
     });
   },
 };

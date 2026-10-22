@@ -16,6 +16,7 @@ describe('Swagger documentation', () => {
     expect(res.body.paths['/invoices/{id}'].get).toBeDefined();
     expect(res.body.paths['/invoices/{id}/send'].post).toBeDefined();
     expect(res.body.paths['/invoices/{id}/pay'].post).toBeDefined();
+    expect(res.body.paths['/invoices/{id}/pdf'].get).toBeDefined();
     expect(res.body.components.schemas).toHaveProperty('Client');
     expect(res.body.components.schemas).toHaveProperty('Invoice');
     expect(res.body.components.schemas).toHaveProperty('Error');

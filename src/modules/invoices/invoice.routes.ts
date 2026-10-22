@@ -254,3 +254,39 @@ invoicesRouter.post('/:id/send', invoiceController.send);
  *               $ref: '#/components/schemas/Error'
  */
 invoicesRouter.post('/:id/pay', invoiceController.pay);
+
+/**
+ * @openapi
+ * /invoices/{id}/pdf:
+ *   get:
+ *     tags: [Invoices]
+ *     summary: Download an invoice as a PDF
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     responses:
+ *       200:
+ *         description: The invoice as a PDF file
+ *         content:
+ *           application/pdf:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       400:
+ *         description: The id is not a valid UUID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Invoice not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+invoicesRouter.get('/:id/pdf', invoiceController.pdf);

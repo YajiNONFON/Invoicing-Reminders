@@ -36,4 +36,12 @@ export const invoiceController = {
     const invoice = await invoiceService.pay(id);
     res.json(toInvoiceResponse(invoice));
   },
+
+  async pdf(req: Request, res: Response) {
+    const { id } = invoiceIdParamSchema.parse(req.params);
+    const { filename, content } = await invoiceService.getPdf(id);
+    res.type('application/pdf');
+    res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+    res.send(content);
+  },
 };

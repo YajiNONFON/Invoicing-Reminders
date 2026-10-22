@@ -2,6 +2,7 @@ import { toDateOnly, todayISO } from '../../shared/dates';
 import { badRequest, conflict, notFound } from '../../shared/errors';
 import { clientService } from '../clients/client.service';
 import type { CreateInvoiceInput, InvoiceLineInput } from './invoice.dto';
+import { renderInvoicePdf } from './invoice.pdf';
 import { invoiceRepository } from './invoice.repository';
 import { statusesBefore } from './invoice.status';
 
@@ -68,5 +69,10 @@ export const invoiceService = {
       throw conflict(`Cannot pay an invoice that is ${invoice.status}`);
     }
     return this.getById(id);
+  },
+
+  async getPdf(id: string) {
+    const invoice = await this.getById(id);
+    return { filename: `${invoice.number}.pdf`, content: await renderInvoicePdf(invoice) };
   },
 };

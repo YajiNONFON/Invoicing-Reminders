@@ -155,7 +155,7 @@ invoicesRouter.get('/', invoiceController.list);
  *                     reminders:
  *                       type: array
  *                       items:
- *                         type: object
+ *                         $ref: '#/components/schemas/Reminder'
  *       400:
  *         description: The id is not a valid UUID
  *         content:

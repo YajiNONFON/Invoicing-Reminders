@@ -11,6 +11,7 @@
 export type * from './models/Client.js'
 export type * from './models/Invoice.js'
 export type * from './models/InvoiceLine.js'
+export type * from './models/Reminder.js'
 export type * from './models/Payment.js'
 export type * from './models/Sequence.js'
 export type * from './commonInputTypes.js'

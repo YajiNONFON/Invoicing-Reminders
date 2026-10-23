@@ -1,7 +1,7 @@
 import { toDateOnly, todayISO } from '../../shared/dates';
 import { badRequest, conflict, notFound } from '../../shared/errors';
 import { clientService } from '../clients/client.service';
-import type { CreateInvoiceInput, InvoiceLineInput } from './invoice.dto';
+import type { CreateInvoiceInput, InvoiceLineInput, InvoiceRecord } from './invoice.dto';
 import { renderInvoicePdf } from './invoice.pdf';
 import { invoiceRepository } from './invoice.repository';
 import { statusesBefore } from './invoice.status';
@@ -74,5 +74,15 @@ export const invoiceService = {
   async getPdf(id: string) {
     const invoice = await this.getById(id);
     return { filename: `${invoice.number}.pdf`, content: await renderInvoicePdf(invoice) };
+  },
+
+  /**
+   * Flags sent invoices whose due date is before `today` as overdue, then returns every overdue
+   * invoice (an invoice already flagged on a previous day is returned again).
+   */
+  async markOverdue(today: string): Promise<InvoiceRecord[]> {
+    const todayDate = toDateOnly(today);
+    await invoiceRepository.markOverdue(statusesBefore('overdue'), todayDate);
+    return invoiceRepository.findOverdue(todayDate);
   },
 };

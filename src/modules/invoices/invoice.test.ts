@@ -28,6 +28,13 @@ const storedInvoice = {
     { description: 'Design', quantity: 3, unitPriceCents: 1999 },
     { description: 'Hosting', quantity: 1, unitPriceCents: 1001 },
   ],
+  reminders: [
+    {
+      id: 'r1',
+      day: new Date('2026-10-23T00:00:00.000Z'),
+      subject: 'Reminder: invoice FAC-0001 is overdue',
+    },
+  ],
 };
 
 vi.mock('./invoice.repository', () => ({
@@ -167,12 +174,21 @@ describe('GET /api/invoices', () => {
 });
 
 describe('GET /api/invoices/:id', () => {
-  it('returns the invoice with a reminders array', async () => {
+  it('returns the invoice with its reminders', async () => {
     const res = await request(app).get(`/api/invoices/${INVOICE_ID}`);
 
     expect(res.status).toBe(200);
     expect(res.body.id).toBe(INVOICE_ID);
-    expect(res.body.reminders).toEqual([]);
+    expect(res.body.reminders).toEqual([
+      {
+        id: 'r1',
+        invoiceId: INVOICE_ID,
+        number: 'FAC-0001',
+        to: 'ada@example.com',
+        date: '2026-10-23',
+        subject: 'Reminder: invoice FAC-0001 is overdue',
+      },
+    ]);
   });
 
   it('returns 404 for an unknown invoice', async () => {

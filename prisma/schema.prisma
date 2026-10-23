@@ -35,6 +35,7 @@ model Invoice {
   createdAt  DateTime      @default(now())
   lines      InvoiceLine[]
   payments   Payment[]
+  reminders Reminder[]
 
   @@index([clientId])
   @@index([status, dueDate])
@@ -51,6 +52,17 @@ model InvoiceLine {
 
   @@index([invoiceId])
 }
+
+model Reminder {
+      id        String   @id @default(uuid())
+      invoiceId String
+      invoice   Invoice  @relation(fields: [invoiceId], references: [id])
+      day       DateTime @db.Date
+      subject   String
+      createdAt DateTime @default(now())
+
+      @@unique([invoiceId, day])
+    }
 
 model Payment {
   id          String   @id @default(uuid())

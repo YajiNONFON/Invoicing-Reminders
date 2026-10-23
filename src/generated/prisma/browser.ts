@@ -33,6 +33,11 @@ export type Invoice = Prisma.InvoiceModel
  */
 export type InvoiceLine = Prisma.InvoiceLineModel
 /**
+ * Model Reminder
+ * 
+ */
+export type Reminder = Prisma.ReminderModel
+/**
  * Model Payment
  * 
  */

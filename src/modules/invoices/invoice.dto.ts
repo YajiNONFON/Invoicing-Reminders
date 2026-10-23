@@ -28,6 +28,8 @@ export interface InvoiceRecord {
   status: 'draft' | 'sent' | 'paid' | 'overdue';
   totalCents: number;
   lines: InvoiceLineInput[];
+  /** Only loaded by the detail query. */
+  reminders?: { id: string; day: Date; subject: string }[];
 }
 
 /** An invoice as the API returns it: dates are YYYY-MM-DD strings. */
@@ -48,10 +50,17 @@ export function toInvoiceResponse(invoice: InvoiceRecord) {
   };
 }
 
-/**
- * An invoice with its reminders. Reminders are recorded by the overdue job (added with the
- * reminders module), so the list is empty until then.
- */
+/** An invoice with its reminders, each shaped like an item of GET /api/reminders. */
 export function toInvoiceDetailResponse(invoice: InvoiceRecord) {
-  return { ...toInvoiceResponse(invoice), reminders: [] as never[] };
+  return {
+    ...toInvoiceResponse(invoice),
+    reminders: (invoice.reminders ?? []).map((reminder) => ({
+      id: reminder.id,
+      invoiceId: invoice.id,
+      number: invoice.number,
+      to: invoice.client.email,
+      date: formatDate(reminder.day),
+      subject: reminder.subject,
+    })),
+  };
 }

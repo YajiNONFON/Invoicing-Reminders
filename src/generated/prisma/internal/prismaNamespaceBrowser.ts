@@ -54,6 +54,7 @@ export const ModelName = {
   Client: 'Client',
   Invoice: 'Invoice',
   InvoiceLine: 'InvoiceLine',
+  Reminder: 'Reminder',
   Payment: 'Payment',
   Sequence: 'Sequence'
 } as const
@@ -108,6 +109,17 @@ export const InvoiceLineScalarFieldEnum = {
 } as const
 
 export type InvoiceLineScalarFieldEnum = (typeof InvoiceLineScalarFieldEnum)[keyof typeof InvoiceLineScalarFieldEnum]
+
+
+export const ReminderScalarFieldEnum = {
+  id: 'id',
+  invoiceId: 'invoiceId',
+  day: 'day',
+  subject: 'subject',
+  createdAt: 'createdAt'
+} as const
+
+export type ReminderScalarFieldEnum = (typeof ReminderScalarFieldEnum)[keyof typeof ReminderScalarFieldEnum]
 
 
 export const PaymentScalarFieldEnum = {

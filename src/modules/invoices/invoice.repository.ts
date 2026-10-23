@@ -27,7 +27,33 @@ export const invoiceRepository = {
   },
 
   findById(id: string) {
-    return prisma.invoice.findUnique({ where: { id }, include: invoiceInclude });
+    return prisma.invoice.findUnique({
+      where: { id },
+      include: {
+        ...invoiceInclude,
+        reminders: {
+          orderBy: [{ day: 'desc' }, { createdAt: 'desc' }],
+          select: { id: true, day: true, subject: true },
+        },
+      },
+    });
+  },
+
+  /** Moves every invoice in one of the `from` statuses whose due date is before `today` to overdue. */
+  async markOverdue(from: InvoiceStatus[], today: Date) {
+    const { count } = await prisma.invoice.updateMany({
+      where: { status: { in: from }, dueDate: { lt: today } },
+      data: { status: 'overdue' },
+    });
+    return count;
+  },
+
+  findOverdue(today: Date) {
+    return prisma.invoice.findMany({
+      where: { status: 'overdue', dueDate: { lt: today } },
+      orderBy: { number: 'asc' },
+      include: invoiceInclude,
+    });
   },
 
   /** Reserves the next invoice number and inserts the invoice with its lines, atomically. */

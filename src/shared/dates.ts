@@ -1,4 +1,4 @@
-const APP_TIMEZONE = process.env.APP_TIMEZONE ?? 'Africa/Porto-Novo';
+export const APP_TIMEZONE = process.env.APP_TIMEZONE ?? 'Africa/Porto-Novo';
 
 /** Today's calendar date (YYYY-MM-DD) in the application's timezone. */
 export function todayISO(now: Date = new Date()): string {

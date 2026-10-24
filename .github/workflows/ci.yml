@@ -8,9 +8,26 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+
+    # A real PostgreSQL, started next to the job and thrown away afterwards
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: invoicing
+          POSTGRES_PASSWORD: invoicing
+          POSTGRES_DB: invoicing
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U invoicing -d invoicing"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+
     env:
-      # prisma generate only reads the URL, it never connects; tests mock the database
-      DATABASE_URL: postgresql://invoicing:invoicing@localhost:5433/invoicing
+      DATABASE_URL: postgresql://invoicing:invoicing@localhost:5432/invoicing?schema=public
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -20,4 +37,7 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run build
+      - run: npm run db:deploy
       - run: npm test
+        env:
+          RUN_DB_TESTS: 'true'

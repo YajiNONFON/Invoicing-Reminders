@@ -1,5 +1,5 @@
 import PDFDocument from 'pdfkit';
-import { formatCents } from './invoice.money';
+import { formatUsd } from './invoice.money';
 import type { InvoiceRecord } from './invoice.dto';
 import { formatDate } from '../../shared/dates';
 
@@ -61,8 +61,8 @@ export function renderInvoicePdf(invoice: InvoiceRecord): Promise<Buffer> {
       doc.fillColor('#000000');
       doc.text(line.description, COL.description, y, { width: 260 });
       doc.text(String(line.quantity), COL.quantity, y, { width: 50, align: 'right' });
-      doc.text(formatCents(line.unitPriceCents), COL.unitPrice, y, { width: 70, align: 'right' });
-      doc.text(formatCents(line.quantity * line.unitPriceCents), COL.total, y, {
+      doc.text(formatUsd(line.unitPriceCents), COL.unitPrice, y, { width: 70, align: 'right' });
+      doc.text(formatUsd(line.quantity * line.unitPriceCents), COL.total, y, {
         width: 75,
         align: 'right',
       });
@@ -81,7 +81,7 @@ export function renderInvoicePdf(invoice: InvoiceRecord): Promise<Buffer> {
       .stroke();
     doc.font('Helvetica-Bold').fontSize(12).fillColor('#000000');
     doc.text('Total', COL.unitPrice - 20, y + 10, { width: 80 });
-    doc.text(formatCents(invoice.totalCents), COL.total, y + 10, { width: 75, align: 'right' });
+    doc.text(formatUsd(invoice.totalCents), COL.total, y + 10, { width: 75, align: 'right' });
 
     doc.end();
   });

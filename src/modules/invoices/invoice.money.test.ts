@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatCents } from './invoice.money';
+import { formatCents, formatUsd } from './invoice.money';
 
 describe('formatCents', () => {
   it.each([
@@ -14,5 +14,16 @@ describe('formatCents', () => {
     [-250, '-2.50'],
   ])('formats %i cents as %s', (cents, expected) => {
     expect(formatCents(cents)).toBe(expected);
+  });
+});
+
+describe('formatUsd', () => {
+  it.each([
+    [0, '$0.00'],
+    [264000, '$2,640.00'],
+    [150, '$1.50'],
+    [-250, '-$2.50'],
+  ])('formats %i cents as %s', (cents, expected) => {
+    expect(formatUsd(cents)).toBe(expected);
   });
 });

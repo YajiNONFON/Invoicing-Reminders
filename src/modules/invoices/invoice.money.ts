@@ -8,3 +8,9 @@ export function formatCents(cents: number): string {
   const fraction = (abs % 100).toString().padStart(2, '0');
   return `${sign}${whole}.${fraction}`;
 }
+
+/** Whole cents to US dollars: 264000 -> "$2,640.00". The API is single-currency (USD). */
+export function formatUsd(cents: number): string {
+  const text = formatCents(Math.abs(cents));
+  return cents < 0 ? `-$${text}` : `$${text}`;
+}

@@ -2,7 +2,7 @@
 
 The backend complies with this contract, and Swagger documents it.
 
-- Amounts are in **cents (integers)**.
+- Amounts are in **US cents (integers)**: `264000` means $2,640.00. The API is single-currency; multi-currency is out of scope.
 - Dates use the `YYYY-MM-DD` format.
 - Errors: `{ "message": "..." }` with a 4xx HTTP status code (5xx only for unexpected errors).
 - Interactive documentation: `/docs` (OpenAPI JSON at `/docs.json`). Health check: `GET /health` (outside `/api`).

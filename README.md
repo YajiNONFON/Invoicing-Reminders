@@ -12,7 +12,7 @@ Getting paid is a chain of small steps: create the invoice, produce the PDF, sen
 
 ## What it does
 
-- Create clients and invoices. Totals are computed by the server, in cents.
+- Create clients and invoices. Totals are computed by the server, in cents. Amounts are US dollars (single currency).
 - Statuses `draft`, `sent`, `paid`, `overdue`, with controlled transitions (every forbidden move is rejected and tested).
 - Invoice PDF generation.
 - A daily job flags overdue invoices and records one reminder for each, at most one per invoice per day.

@@ -73,8 +73,8 @@ async function main() {
       afi.id,
       30,
       [
-        { description: 'Website design', quantity: 1, unitPriceCents: 150000 },
-        { description: 'Hosting (12 months)', quantity: 1, unitPriceCents: 24000 },
+        { description: 'Website design', quantity: 1, unitPriceCents: 240000 },
+        { description: 'Hosting (12 months)', quantity: 12, unitPriceCents: 2000 },
       ],
       'sent',
     ),
@@ -82,27 +82,27 @@ async function main() {
       koffi.id,
       -5,
       [
-        { description: 'Monthly maintenance', quantity: 3, unitPriceCents: 19999 },
-        { description: 'Domain name', quantity: 1, unitPriceCents: 1001 },
+        { description: 'Monthly maintenance', quantity: 3, unitPriceCents: 49900 },
+        { description: 'Domain name', quantity: 1, unitPriceCents: 1500 },
       ],
       'sent',
     ),
     await createInvoice(
       boutique.id,
       -12,
-      [{ description: 'Product photos', quantity: 20, unitPriceCents: 2500 }],
+      [{ description: 'Product photos', quantity: 20, unitPriceCents: 4500 }],
       'sent',
     ),
     await createInvoice(
       afi.id,
       14,
-      [{ description: 'Logo redesign', quantity: 1, unitPriceCents: 35000 }],
+      [{ description: 'Logo redesign', quantity: 1, unitPriceCents: 85000 }],
       'draft',
     ),
     await createInvoice(
       koffi.id,
       -20,
-      [{ description: 'SEO audit', quantity: 1, unitPriceCents: 80000 }],
+      [{ description: 'SEO audit', quantity: 1, unitPriceCents: 180000 }],
       'paid',
     ),
   ];
